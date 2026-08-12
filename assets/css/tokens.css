@@ -1,0 +1,96 @@
+/* FOKUS Nebula - design tokens.
+   ATURAN: tidak ada satu pun nilai warna/jarak/radius mentah di file CSS lain.
+   Semua harus mengambil dari variabel di sini. Ini yang mencegah tampilan "belang". */
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('/assets/font/Quicksand-Regular.woff') format('woff'),
+       url('/assets/font/Quicksand-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Quicksand';
+  src: url('/assets/font/Quicksand-Medium.woff') format('woff'),
+       url('/assets/font/Quicksand-Medium.ttf') format('truetype');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Quicksand';
+  src: url('/assets/font/Quicksand-SemiBold.woff') format('woff'),
+       url('/assets/font/Quicksand-SemiBold.ttf') format('truetype');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Quicksand';
+  src: url('/assets/font/Quicksand-Bold.woff') format('woff'),
+       url('/assets/font/Quicksand-Bold.ttf') format('truetype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+:root {
+  /* --- Warna dasar --- */
+  --surface:        #101415;
+  --surface-2:      #171c1e;
+  --surface-container: #0a0e1a;
+  --on-surface:     #e8eaf0;
+  --on-surface-dim: #9aa2b1;
+  --outline:        rgba(195, 198, 215, 0.16);
+
+  --primary:        #c3c6d7;
+  --on-primary:     #0a0e1a;
+
+  /* Profil Sprout (kecemasan/ketidakpastian tinggi) */
+  --sprout:         #8bd6b4;
+  --sprout-deep:    #005c42;
+  /* Profil Spark (tarikan digital tinggi) */
+  --spark:          #bdc2ff;
+  --spark-deep:     #000342;
+
+  /* Warna aktif mengikuti profil partisipan. Diubah oleh <html data-profile>. */
+  --accent:         var(--primary);
+  --accent-deep:    var(--surface-container);
+
+  /* Status */
+  --ok:      #8bd6b4;
+  --warn:    #ffd479;
+  --danger:  #ff8b8b;
+
+  /* --- Jarak: satuan 8px --- */
+  --s1: 0.5rem;  --s2: 1rem;   --s3: 1.5rem;
+  --s4: 2rem;    --s5: 2.5rem; --s6: 3rem;
+  --pad: 1.5rem;              /* padding kontainer */
+
+  /* --- Radius --- */
+  --r-sm: 0.5rem; --r: 1rem; --r-md: 1.5rem; --r-lg: 2rem; --r-xl: 3rem; --r-full: 999px;
+
+  /* --- Tipografi --- */
+  --font: 'Quicksand', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --t-display: clamp(1.75rem, 6vw, 2.5rem);
+  --t-h1:      clamp(1.375rem, 4.5vw, 1.75rem);
+  --t-h2:      clamp(1.125rem, 3.5vw, 1.25rem);
+  --t-body:    1rem;
+  --t-small:   0.8125rem;
+
+  /* --- Elevasi & kaca --- */
+  --glass:      rgba(23, 28, 30, 0.62);
+  --glass-edge: rgba(195, 198, 215, 0.14);
+  --blur:       blur(14px) saturate(120%);
+  --shadow:     0 8px 32px rgba(0, 0, 0, 0.45);
+
+  /* --- Gerak --- */
+  --fast: 140ms; --base: 240ms; --slow: 420ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* --- Tata letak --- */
+  --max-w: 30rem;                /* mobile-first; di laptop tetap satu kolom terpusat */
+  --nav-h: 4.5rem;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+html[data-profile="sprout"] { --accent: var(--sprout); --accent-deep: var(--sprout-deep); }
+html[data-profile="spark"]  { --accent: var(--spark);  --accent-deep: var(--spark-deep); }
+
+/* Hormati preferensi pengguna yang sensitif gerak (aksesibilitas + hemat baterai) */
+@media (prefers-reduced-motion: reduce) {
+  :root { --fast: 0ms; --base: 0ms; --slow: 0ms; }
+}

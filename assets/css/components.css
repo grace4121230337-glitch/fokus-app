@@ -1,0 +1,407 @@
+/* Komponen. Setiap pola visual didefinisikan SEKALI di sini.
+   Kalau sebuah layar butuh tampilan baru, tambahkan komponen di sini - jangan menulis gaya lokal. */
+
+/* --- Kartu kaca --- */
+.card {
+  background: var(--glass);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--r-md);
+  padding: var(--s3);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+.card--tight { padding: var(--s2); gap: var(--s1); }
+.card--accent { border-color: rgba(139, 214, 180, 0.4); }
+
+/* --- Tombol --- */
+.btn {
+  appearance: none;
+  border: 1px solid transparent;
+  min-height: 3rem;
+  padding: 0 var(--s3);
+  border-radius: var(--r-full);
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: var(--t-body);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s1);
+  transition: transform var(--fast) var(--ease), filter var(--fast) var(--ease),
+              background-color var(--fast) var(--ease);
+}
+.btn:active:not(:disabled) { transform: scale(0.975); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn--primary { background: var(--accent); color: var(--on-primary); }
+.btn--primary:hover:not(:disabled) { filter: brightness(1.08); }
+
+.btn--ghost {
+  background: rgba(195, 198, 215, 0.08);
+  border-color: var(--outline);
+  color: var(--on-surface);
+}
+.btn--ghost:hover:not(:disabled) { background: rgba(195, 198, 215, 0.14); }
+.btn--ghost[aria-pressed="true"] { background: rgba(195, 198, 215, 0.2); border-color: var(--accent); }
+.btn--danger { background: transparent; border-color: var(--danger); color: var(--danger); }
+.btn--block { width: 100%; }
+
+/* --- Input --- */
+.label { font-size: var(--t-small); color: var(--on-surface-dim); font-weight: 600; }
+.input {
+  width: 100%;
+  min-height: 3rem;
+  padding: var(--s1) var(--s2);
+  background: rgba(10, 14, 26, 0.55);
+  border: 1px solid var(--outline);
+  border-radius: var(--r-sm);
+  color: var(--on-surface);
+}
+.input:focus { border-color: var(--accent); outline: none; }
+textarea.input { min-height: 6rem; resize: vertical; }
+
+/* --- Checkbox pernyataan consent --- */
+.check {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s2);
+  align-items: start;
+  padding: var(--s2);
+  border: 1px solid var(--outline);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-size: var(--t-small);
+  line-height: 1.5;
+}
+.check input { width: 1.25rem; height: 1.25rem; margin-top: 0.15rem; accent-color: var(--accent); }
+/* Penanda terpilih: dipisah agar browser tanpa :has() tetap merender sisanya. */
+.check--on { border-color: var(--accent); background: rgba(195, 198, 215, 0.07); }
+
+/* --- Skala Likert 1-5 --- */
+.likert { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--s2); }
+.likert legend { font-size: var(--t-h2); font-weight: 600; line-height: 1.35; margin-bottom: var(--s1); }
+.likert__opt {
+  display: grid;
+  grid-template-columns: auto 1.5rem 1fr;
+  gap: var(--s2);
+  align-items: center;
+  min-height: 3rem;
+  padding: var(--s1) var(--s2);
+  border: 1px solid var(--outline);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background-color var(--fast) var(--ease), border-color var(--fast) var(--ease);
+}
+.likert__opt:hover { background: rgba(195, 198, 215, 0.06); }
+.likert__opt input { width: 1.15rem; height: 1.15rem; accent-color: var(--accent); }
+.likert__opt span { font-weight: 700; text-align: center; }
+.likert__opt small { color: var(--on-surface-dim); }
+.likert__opt--on { border-color: var(--accent); background: rgba(195, 198, 215, 0.12); }
+
+/* --- Bar progres (XP, pretest) --- */
+.progress {
+  height: 0.5rem;
+  width: 100%;
+  background: rgba(10, 14, 26, 0.7);
+  border-radius: var(--r-full);
+  overflow: hidden;
+}
+.progress__fill {
+  height: 100%;
+  width: var(--val, 0%);
+  background: linear-gradient(90deg, var(--accent-deep), var(--accent));
+  border-radius: var(--r-full);
+  transition: width var(--slow) var(--ease);
+}
+
+/* --- Bar HP sesi Kubah: SATU-SATUNYA tampilan HP di aplikasi --- */
+.hp {
+  height: 0.75rem;
+  width: 100%;
+  background: rgba(10, 14, 26, 0.75);
+  border: 1px solid var(--outline);
+  border-radius: var(--r-full);
+  overflow: hidden;
+}
+.hp__fill {
+  height: 100%;
+  width: var(--hp, 100%);
+  border-radius: var(--r-full);
+  transition: width var(--base) var(--ease), background-color var(--base) var(--ease);
+}
+.hp[data-level="full"] .hp__fill { background: var(--ok); }
+.hp[data-level="mid"] .hp__fill { background: var(--warn); }
+.hp[data-level="low"] .hp__fill { background: var(--danger); }
+
+/* --- Companion --- */
+.companion {
+  filter: drop-shadow(0 0 24px rgba(189, 194, 255, 0.45));
+  object-fit: contain;
+}
+.companion--lg { width: 12rem; height: 12rem; margin-inline: auto; }
+.companion--sm { width: 4.5rem; height: 4.5rem; }
+.companion--enter { animation: reveal var(--slow) var(--ease) both; }
+@keyframes reveal {
+  from { opacity: 0; transform: scale(0.86) translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.companion--locked { filter: grayscale(1) brightness(0.4); }
+
+/* --- Kubah Fokus --- */
+.dome { display: grid; place-items: center; gap: var(--s3); margin-block: auto; text-align: center; }
+.timer {
+  font-size: clamp(3rem, 18vw, 4.5rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/* --- Konstelasi Rank --- */
+.stars { display: flex; flex-wrap: wrap; gap: var(--s1); }
+.star { font-size: 1.25rem; color: var(--accent); line-height: 1; }
+
+/* --- Navigasi bawah (satu-satunya) --- */
+.nav {
+  position: fixed;
+  bottom: 0;
+  inset-inline: 0;
+  z-index: 20;
+  height: calc(var(--nav-h) + var(--safe-b));
+  padding-bottom: var(--safe-b);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  background: rgba(10, 14, 26, 0.86);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border-top: 1px solid var(--glass-edge);
+}
+.nav__item {
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  text-decoration: none;
+  color: var(--on-surface-dim);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  opacity: 0.72;
+  transition: opacity var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+.nav__item[aria-current="page"] { opacity: 1; color: var(--on-surface); }
+.nav__item[aria-current="page"] .nav__icon { transform: translateY(-1px) scale(1.06); }
+.nav__icon { width: 1.75rem; height: 1.75rem; transition: transform var(--fast) var(--ease); }
+
+/* --- Toast --- */
+.toast-root {
+  position: fixed;
+  z-index: 40;
+  bottom: calc(var(--nav-h) + var(--safe-b) + var(--s2));
+  inset-inline: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s1);
+  pointer-events: none;
+}
+.toast {
+  background: var(--surface-2);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--r-full);
+  padding: var(--s1) var(--s3);
+  font-size: var(--t-small);
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  animation: toastIn var(--base) var(--ease) both;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* --- Modal --- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: end center;
+  background: rgba(0, 0, 0, 0.55);
+  padding: var(--s2);
+  animation: fade var(--fast) var(--ease) both;
+}
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.modal__box {
+  width: 100%;
+  max-width: var(--max-w);
+  background: var(--surface-2);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--r-md);
+  padding: var(--s3);
+  margin-bottom: calc(var(--safe-b) + var(--s2));
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  box-shadow: var(--shadow);
+  animation: sheetUp var(--base) var(--ease) both;
+}
+@keyframes sheetUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.modal__actions { display: flex; flex-direction: column; gap: var(--s1); }
+@media (min-width: 30rem) {
+  .modal { place-items: center; }
+  .modal__box { margin-bottom: 0; }
+  .modal__actions { flex-direction: row; justify-content: flex-end; }
+}
+
+/* --- Kepala layar --- */
+.head { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); }
+.head__icon { width: 1.75rem; height: 1.75rem; opacity: 0.85; }
+
+/* --- Pemilih tier (khusus peneliti saat onboarding) --- */
+.tier-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s1); }
+.tier-grid .btn { padding: 0 var(--s1); font-size: var(--t-small); }
+
+/* --- Lencana & gambar kartu --- */
+.badge { width: 7.5rem; height: 7.5rem; margin-inline: auto; }
+.card__art { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--r-sm); }
+
+/* --- Statistik --- */
+.stat__value { font-size: var(--t-h2); font-weight: 700; line-height: 1.2; }
+
+/* ============================================================
+   Checkpoint 2 - onboarding (pendaftaran, consent, pretest)
+   Tetap tanpa :has() dan color-mix() agar aman di Chromium/Safari lama.
+   ============================================================ */
+
+.onboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding-block: var(--sp-6) var(--sp-8);
+}
+
+.onboard > .h1 { margin: 0; }
+
+.onboard__art {
+  display: block;
+  width: min(17.5rem, 70%);
+  height: auto;
+  margin-inline: auto;
+  opacity: 0.9;
+}
+
+.small { font-size: var(--fs-sm); }
+.center { text-align: center; }
+.onboard.center .companion { margin-inline: auto; }
+
+/* --- Kolom input berlabel --- */
+.field { display: block; }
+
+.field__label {
+  display: block;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* --- Catatan validasi di bawah input --- */
+.note {
+  margin: var(--sp-2) 0 0;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-md);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  background: rgba(255, 255, 255, 0.04);
+  border-left: 3px solid var(--border);
+}
+
+.note[data-tone='good'] {
+  color: var(--ok);
+  background: rgba(139, 214, 180, 0.10);
+  border-left-color: var(--ok);
+}
+
+.note[data-tone='bad'] {
+  color: var(--danger);
+  background: rgba(255, 139, 139, 0.10);
+  border-left-color: var(--danger);
+}
+
+/* --- Butir yang belum terisi saat partisipan menekan Lanjut --- */
+.likert--missing {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 1px rgba(255, 139, 139, 0.35);
+}
+
+/* --- Opsi ya/tidak: dua tombol lebar, bukan lima angka --- */
+.likert__opt--wide {
+  flex: 1 1 42%;
+  min-height: 3rem;
+  justify-content: center;
+}
+
+.likert__opt--wide span { font-size: var(--fs-md); }
+
+/* Kotak centang consent yang sudah dicentang: ditandai kelas dari JS. */
+.check--on { border-color: var(--accent); background: rgba(255, 255, 255, 0.05); }
+
+/* Tombol nonaktif harus jelas terlihat nonaktif - partisipan tidak boleh
+   mengira aplikasi rusak saat tombol setuju belum bisa ditekan. */
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: saturate(0.4);
+}
+
+/* --- Checkpoint 3: Kubah Fokus --- */
+
+/* Pilihan durasi. Tinggi minimum 44px dipertahankan supaya tetap nyaman disentuh
+   di layar 360px, sesuai aturan area sentuh di seluruh aplikasi. */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+.btn--chip {
+  flex: 1 1 calc(50% - 8px);
+  min-height: 44px;
+  padding: 10px 12px;
+  width: auto;
+}
+.btn--chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* Blok HP di dalam kubah. */
+.dome__hp { width: 100%; max-width: 320px; margin: 20px auto 12px; }
+.dome__hp .row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+
+/* Bar progres tipis di bawah timer: informasi sekunder, tidak boleh menarik mata
+   lebih dari angka timer itu sendiri. */
+.progress--thin { height: 4px; max-width: 320px; margin: 0 auto; opacity: .55; }
+
+/* --- Checkpoint 5: Dex, Misi --- */
+
+/* Ukuran menengah untuk kartu koleksi: cukup besar agar detail companion terbaca,
+   cukup kecil agar tiga tahap muat sebaris di layar 360px. */
+.companion--md { width: 6rem; height: 6rem; margin-inline: auto; }
+
+.dex__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s2);
+}
+.dex__grid .card { padding: var(--s2) var(--s1); }
+
+.quest__item + .quest__item {
+  margin-top: var(--s2);
+  padding-top: var(--s2);
+  border-top: 1px solid var(--outline);
+}

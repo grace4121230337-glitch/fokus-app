@@ -1,0 +1,14 @@
+{
+  "name": "fokus-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "FOKUS - adaptive persuasive web-game berbasis EMA untuk mereduksi prokrastinasi dan distraksi digital (OPSI 2026)",
+  "scripts": {
+    "dev": "python3 -m http.server 4173",
+    "test": "node test/run.js",
+    "qa": "bash tools/qa-shots.sh",
+    "check": "node test/run.js && bash tools/qa-shots.sh"
+  },
+  "engines": { "node": ">=18" }
+}

@@ -1,0 +1,161 @@
+/* Struk Fokus - satu-satunya bagian aplikasi yang sengaja melanggar tema gelap.
+
+   Seluruh aplikasi memakai latar gelap dan font Quicksand yang lembut. Struk ini putih,
+   monospace, bersudut tajam, tanpa bayangan halus. Perbedaan itu disengaja: partisipan
+   harus langsung merasa sedang memegang benda lain - dokumen yang mencatat, bukan layar
+   yang menyemangati. Nada visual yang berbeda ikut menjaga agar struk tidak terbaca
+   sebagai pujian.
+
+   Font: tidak ada CDN. Aplikasi harus tetap utuh saat HP partisipan offline, jadi
+   dipakai tumpukan monospace bawaan sistem. Di Android hasilnya Roboto Mono, di iOS
+   Menlo - keduanya sudah memberi kesan mesin kasir yang dituju. */
+
+.seg {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+.seg__btn {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  background: rgba(255, 255, 255, .04);
+  color: inherit;
+  font: inherit;
+  font-size: .9rem;
+  cursor: pointer;
+}
+.seg__btn.is-on {
+  background: rgba(255, 255, 255, .92);
+  color: #14181a;
+  font-weight: 600;
+}
+
+.struk {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 16px;
+}
+
+/* Kertas.
+   Gerigi atas-bawah dibuat dengan radial-gradient, bukan gambar: satu berkas lebih
+   sedikit untuk diunduh, dan tetap tajam di layar kerapatan tinggi mana pun. */
+.struk__paper {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  padding: 26px 20px 22px;
+  background: #f7f6f2;
+  color: #111;
+  font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.5;
+  border-radius: 0;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .45);
+  -webkit-mask:
+    radial-gradient(circle at 5px 0, transparent 0 5px, #000 5.5px) 0 0 / 10px 100%,
+    radial-gradient(circle at 5px 100%, transparent 0 5px, #000 5.5px) 0 100% / 10px 100%;
+  -webkit-mask-composite: source-in;
+          mask-composite: intersect;
+}
+
+/* Serat kertas. Sangat samar - kalau terlihat jelas, ia berubah menjadi kotoran. */
+.struk__paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .35;
+  background-image:
+    radial-gradient(rgba(0, 0, 0, .05) 1px, transparent 1px),
+    radial-gradient(rgba(0, 0, 0, .04) 1px, transparent 1px);
+  background-size: 7px 7px, 11px 11px;
+  background-position: 0 0, 3px 4px;
+}
+
+.struk__head { text-align: center; }
+.struk__title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+.struk__sub {
+  margin: 4px 0 0;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #6b6b6b;
+}
+.struk__no {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: #6b6b6b;
+}
+
+.struk__cut {
+  border-top: 2px dashed #cfc9bd;
+  margin: 14px 0;
+}
+
+.struk__row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+/* Titik-titik penghubung dibuat dari border, bukan karakter "." berulang:
+   panjangnya menyesuaikan sendiri tanpa perlu menghitung lebar teks. */
+.struk__dots {
+  flex: 1;
+  border-bottom: 1px dotted #b9b3a7;
+  transform: translateY(-3px);
+}
+.struk__k { white-space: nowrap; }
+.struk__v { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.struk__row--strong { font-size: 15px; font-weight: 700; margin-top: 4px; }
+.struk__row--label {
+  justify-content: space-between;
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  color: #6b6b6b;
+  margin-bottom: 6px;
+}
+
+.struk__foot { text-align: center; }
+.struk__auth {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  border: 1px solid #111;
+  padding: 4px 6px;
+  display: inline-block;
+}
+.struk__thanks {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.struk__note {
+  margin: 2px 0 10px;
+  font-size: 10.5px;
+  color: #6b6b6b;
+}
+
+.struk__barcode {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 34px;
+}
+.struk__barcode i {
+  display: block;
+  height: 100%;
+  background: #111;
+}
+
+/* Layar sangat sempit (iPhone SE): kertas boleh melebar penuh. */
+@media (max-width: 360px) {
+  .struk__paper { padding: 22px 14px 18px; font-size: 12px; }
+  .struk__title { font-size: 23px; }
+}

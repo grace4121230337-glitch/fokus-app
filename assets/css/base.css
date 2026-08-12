@@ -1,0 +1,106 @@
+/* Reset ringkas + kerangka tata letak. Hanya memakai variabel dari tokens.css. */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font);
+  font-size: var(--t-body);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--on-surface);
+  background: var(--surface);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;                 /* cegah geser horizontal di HP */
+  overscroll-behavior-y: contain;
+}
+
+img, svg { display: block; max-width: 100%; height: auto; }
+button, input, textarea, select { font: inherit; color: inherit; }
+
+/* --- Lapis latar --- */
+.bg {
+  position: fixed; inset: 0; z-index: -2;
+  background-image: var(--bg-image, url('/assets/img/bg-home.webp'));
+  background-size: cover; background-position: center;
+  transition: opacity var(--slow) var(--ease);
+}
+/* Veil: penjamin kontras teks. Tanpa ini, teks di atas gambar bisa tidak terbaca. */
+.bg__veil {
+  position: fixed; inset: 0; z-index: -1;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(10, 14, 26, 0.35) 0%, rgba(16, 20, 21, 0.82) 70%),
+    linear-gradient(180deg, rgba(16, 20, 21, 0.55) 0%, rgba(16, 20, 21, 0.92) 100%);
+}
+body[data-bg="dome"]       { --bg-image: url('/assets/img/bg-dome.webp'); }
+body[data-bg="onboarding"] { --bg-image: url('/assets/img/bg-onboarding.webp'); }
+body[data-bg="dex"]        { --bg-image: url('/assets/img/bg-dex.webp'); }
+
+/* --- Kerangka aplikasi --- */
+.app {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding: var(--pad);
+  padding-bottom: calc(var(--nav-h) + var(--safe-b) + var(--s4));
+  display: flex; flex-direction: column; gap: var(--s3);
+  min-height: 100%;
+}
+.app:focus { outline: none; }
+
+/* Layar tanpa navigasi (onboarding, sesi Kubah) memakai seluruh tinggi */
+body[data-chrome="bare"] .app { padding-bottom: calc(var(--pad) + var(--safe-b)); }
+body[data-chrome="bare"] .nav { display: none; }
+
+.skip {
+  position: absolute; left: -9999px; top: var(--s2);
+  background: var(--surface-2); padding: var(--s1) var(--s2); border-radius: var(--r-sm);
+  z-index: 50;
+}
+.skip:focus { left: var(--s2); }
+
+/* --- Tipografi --- */
+.display { font-size: var(--t-display); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+.h1      { font-size: var(--t-h1);      font-weight: 700; line-height: 1.25; }
+.h2      { font-size: var(--t-h2);      font-weight: 600; line-height: 1.3; }
+.body    { font-size: var(--t-body);    font-weight: 500; }
+.dim     { color: var(--on-surface-dim); font-size: var(--t-small); }
+.center  { text-align: center; }
+
+/* --- Utilitas tata letak --- */
+.row     { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); }
+.col     { display: flex; flex-direction: column; gap: var(--s2); }
+.stack   { display: flex; flex-direction: column; gap: var(--s3); }
+.grid-3  { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s2); }
+.spacer  { flex: 1 1 auto; }
+
+/* --- Boot --- */
+.boot { margin: auto; display: grid; place-items: center; gap: var(--s2); text-align: center; }
+.boot__logo { border-radius: var(--r-full); opacity: 0.9; animation: pulse 2.4s var(--ease) infinite; }
+@keyframes pulse { 0%,100% { opacity: 0.55; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1.02); } }
+
+/* --- Fokus terlihat: wajib untuk aksesibilitas keyboard --- */
+:where(a, button, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+/* --- Layar lebar: tetap satu kolom, tapi navigasi jadi bar mengapung --- */
+@media (min-width: 60rem) {
+  .app { padding-block: var(--s5); }
+  .nav {
+    max-width: var(--max-w);
+    margin-inline: auto;
+    inset-inline: 0;
+    bottom: var(--s3);
+    border-radius: var(--r-xl);
+  }
+}
+
+/* Latar Co-op. Tanpa baris ini, layar Co-op diam-diam memakai latar Beranda dan
+   bug seperti itu tidak pernah terlihat di test - hanya di mata partisipan. */
+body[data-bg="coop"]       { --bg-image: url('/assets/img/card-coop-garden.webp'); }
