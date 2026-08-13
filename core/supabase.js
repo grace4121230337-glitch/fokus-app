@@ -266,10 +266,9 @@ export const Sync = {
 
       for (const item of queue) {
         try {
-          const { error } = await sb.from(item.table).upsert(item.row, {
-            onConflict: item.conflict,
-            ignoreDuplicates: true,
-          });
+          const { error } = await sb.from(item.table).insert(item.row);
+          // 23505 adalah duplicate key. Ini terjadi jika baris sudah pernah terkirim
+          // tapi perangkat gagal menerima respons (misal offline mendadak).
           if (!error || error.code === '23505') { sent += 1; continue; }
 
           const why = explainError(error);
