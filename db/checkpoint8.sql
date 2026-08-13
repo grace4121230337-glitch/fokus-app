@@ -47,7 +47,19 @@ create index if not exists fidelity_log_selftest_idx
   on public.fidelity_log (event) where event = 'sync_self_test';
 
 -- ---------------------------------------------------------------------------
--- 3. Indeks pemantauan harian
+-- 3. Kolom baru untuk EMA pasca-sesi (0.8.0)
+--
+-- Versi 0.8.0 menambahkan EMA pasca-sesi. Sinyal ini punya tipe khusus dan
+-- terikat pada sesi tertentu.
+-- ---------------------------------------------------------------------------
+alter table public.ema_signals add column if not exists signal_type text default 'scheduled';
+alter table public.ema_signals add column if not exists session_id uuid references public.sessions(id) on delete cascade;
+
+alter table public.ema_entries add column if not exists signal_type text default 'scheduled';
+alter table public.ema_entries add column if not exists session_id uuid references public.sessions(id) on delete cascade;
+
+-- ---------------------------------------------------------------------------
+-- 4. Indeks pemantauan harian
 --
 -- /api/monitor.js membaca seluruh baris lalu meringkasnya per partisipan setiap 30
 -- detik. Dengan 14 partisipan selama 14 hari jumlah barisnya kecil, tetapi indeks ini
