@@ -5,7 +5,7 @@
      tetap sampai ke partisipan tanpa mereka harus menghapus cache manual.
    - Permintaan ke Supabase: TIDAK PERNAH di-cache. Data penelitian tidak boleh basi. */
 
-const VERSION = 'fokus-v0.7.0';
+const VERSION = 'fokus-v0.8.0';
 const PRECACHE = [
   '/', '/index.html', '/manifest.webmanifest',
   '/assets/css/tokens.css', '/assets/css/base.css', '/assets/css/components.css',
